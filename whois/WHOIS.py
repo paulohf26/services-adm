@@ -36,7 +36,7 @@ def check_whois(domain,validNS):
                 break
             else:
                 msg = "OTHER SERVER"
-                
+
     print domain + ":" + msg
 
 
@@ -77,7 +77,7 @@ def main(argv):
         print "ERRO:"
         usage()
         sys.exit(2)
-        
+
     for opt, arg in opts:
         if opt in ("-h","--help"):
             usage()
@@ -109,7 +109,7 @@ def main(argv):
         l = fd.readline()
         if (not l):
             break
-    fd.close()    
+    fd.close()
 
 
 if (__name__ == "__main__"):
