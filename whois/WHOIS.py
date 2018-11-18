@@ -5,13 +5,17 @@ import os.path
 #require python-whois
 import whois
 
+'''
+WHOIS.py
+Versao 1b
+'''
 
 def check_whois(domain,validNS):
     err = 0
     msg = ""
     servers = []
     res = whois.whois(domain)
-    
+
     if ( not res.status ):
        err = 1
        msg = "DOMAIN NOT FOUND"
@@ -32,7 +36,7 @@ def check_whois(domain,validNS):
                 break
             else:
                 msg = "OTHER SERVER"
-            
+                
     print domain + ":" + msg
 
 
@@ -66,14 +70,14 @@ def main(argv):
     if (len(argv) != 5):
         usage()
         return
-    
+
     try:
         opts,args = getopt.getopt(argv[1:],"d:l:h")
     except getopt.GetoptError:
         print "ERRO:"
         usage()
         sys.exit(2)
-    
+        
     for opt, arg in opts:
         if opt in ("-h","--help"):
             usage()
@@ -82,7 +86,7 @@ def main(argv):
             domainfile = arg
         elif opt in ("-l","--listvalidserversfile"):
             validsrv = arg
-     
+
     validServers = readServersList(validsrv)
 
     if (not validServers or len(validServers) <= 0):
@@ -99,7 +103,6 @@ def main(argv):
     domain = None
     while True:
         domain = l.split("\n")[0]
-        
         if (len(domain) > 5 and "." in domain):
            check_whois(domain,validServers)
 
