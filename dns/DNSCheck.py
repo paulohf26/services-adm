@@ -43,6 +43,10 @@ def check_Record(host,qtype,validServers):
     if (answers):
         for r in answers:
             record = r.to_text()
+
+            if (qtype == "mx"):
+                record = record.split(" ")[1]
+
             if record in str(validServers):
                 flag = 1
                 break
@@ -85,7 +89,7 @@ def readServersList(serversfile):
 def main(argv):
     hostsfile = ''
     validsrv = ''
-    rType = 'a'
+    rType = 'mx'
 
     if (len(argv) != 5):
         usage()
