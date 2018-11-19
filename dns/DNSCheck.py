@@ -64,10 +64,11 @@ def check_Record(host,qtype,validServers):
                 break
             else:
                 ips = myResolver(record,'a')
-                for ip in ips:
-                    if ip.to_text() in str(validServers):
-                        flag = 1
-                        break
+                if (ips):
+                    for ip in ips:
+                        if ip.to_text() in str(validServers):
+                            flag = 1
+                            break
 
             motivo = "OTHER Server"
     else:
