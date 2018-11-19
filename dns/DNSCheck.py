@@ -2,6 +2,8 @@
 
 import sys,getopt
 import os.path
+import ipaddress
+import re
 #require pythondns
 #USE: pip install pythondns
 import dns.resolver
@@ -14,13 +16,23 @@ Versao 0
 #You can change myNameServers for query yours NameServers
 myNameServers = ['8.8.8.8','1.1.1.1']
 
+def myResolver(host,qtype):
+    myRS = dns.resolver.Resolver(configure=False)
+    myRS.nameservers = myNameServers
+    resp = None
+    try:
+        resp = myRS.query(host,qtype)
+    except:
+        pass
+    return resp
+
+
 def check_Record(host,qtype,validServers):
-    print host
-    print qtype
-    print validServers
 
     flag = 0
     motivo = ""
+    ip = 0
+    mypattern = re.compile("[a-z]|[A-Z]")
     answers = None
 
     rs = dns.resolver.Resolver(configure=False)
@@ -46,12 +58,18 @@ def check_Record(host,qtype,validServers):
 
             if (qtype == "mx"):
                 record = record.split(" ")[1]
-
+            
             if record in str(validServers):
                 flag = 1
                 break
             else:
-                motivo = "OTHER Server"
+                ips = myResolver(record,'a')
+                for ip in ips:
+                    if ip.to_text() in str(validServers):
+                        flag = 1
+                        break
+
+            motivo = "OTHER Server"
     else:
         motivo = "NAO EXISTE REGISTRO " + qtype
 
