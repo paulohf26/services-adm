@@ -40,13 +40,16 @@ def check_Record(host,qtype,validServers):
         motivo = "Timeout"
         pass
     
-    for r in answers:
-        record = r.to_text()
-        if record in str(validServers):
-            flag = 1
-            break
-        else:
-            motivo = "OTHER Server"
+    if (answers):
+        for r in answers:
+            record = r.to_text()
+            if record in str(validServers):
+                flag = 1
+                break
+            else:
+                motivo = "OTHER Server"
+    else:
+        motivo = "NAO EXISTE REGISTRO " + qtype
 
     if (flag == 1):
         print host,":OK"
