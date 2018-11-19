@@ -14,7 +14,13 @@ def check_whois(domain,validNS):
     err = 0
     msg = ""
     servers = []
-    res = whois.whois(domain)
+    try:
+        res = whois.whois(domain)
+    except:
+        err = 1
+        msg = "DOMAIN NOT FOUND"
+        print domain + ":" + msg
+        return
 
     if ( not res.status ):
        err = 1
@@ -104,7 +110,7 @@ def main(argv):
     while True:
         domain = l.split("\n")[0]
         if (len(domain) > 5 and "." in domain):
-           check_whois(domain,validServers)
+            check_whois(domain,validServers)
 
         l = fd.readline()
         if (not l):
